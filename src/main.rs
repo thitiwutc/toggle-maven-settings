@@ -26,6 +26,14 @@ fn main() {
         }
     };
 
+    // Terminate program if both files exist.
+    if setting_exists && setting_tmp_exists {
+        eprintln!(
+            "rename file failed: both {maven_setting_path:?} file and {maven_setting_path_tmp:?} exists."
+        );
+        std::process::exit(1);
+    }
+
     // Move settings.xml to settings.xml.tmp
     if setting_exists {
         if let Err(err) = fs::rename(&maven_setting_path, &maven_setting_path_tmp) {
